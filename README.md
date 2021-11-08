@@ -9,6 +9,13 @@ sudo apt update
 sudo apt install ncbi-blast+
 ```
 
+# How to use the tool
+The script can be used as follows (the first argument is the input file, the second argument is the database file used by Blast, and the last argument is the %identity used to filter Blast output):
+```
+perl hsp60ECCtool.pl input_example.fasta database.fasta 80.00
+```
+The program will generate a result.tsv file with information on ECC clades found, and a blastOut file (output produced by blast)
+
 # Description
 hsp60ECCtool is a program dedicated to Enterobacter cloacae complex (ECC) that detects and identifies the partial coding sequence of hps60. It is based on the BLASTn algorithm and a specific dataset (based on sorted hsp60 sequences collected from GenBank ECC assemblies). The program helps users to clearly identify the hsp60 cluster and associated members of the Enterobacter cloacae complex.
 
