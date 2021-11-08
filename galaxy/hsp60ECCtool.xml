@@ -1,0 +1,64 @@
+<tool id="hsp60ecctool/" name="hsp60ECCtool" version="1.1.0">
+  <description>allows to get Enterobacter cloacae complex hsp60 cluster from a multi-Fasta file</description>
+
+<requirements>
+  <requirement type="package" version="2.12.0">blast</requirement>
+  <!--<requirement type="package" version="1.7.2">perl-bioperl</requirement>-->
+</requirements>
+
+<command detect_errors="aggressive"><![CDATA[
+
+#import re
+        ## Creates symlinks for each input file based on the Galaxy 'element_identifier'
+        ## Used so that a human-readable name appears in the output table (instead of 'dataset_xyz.dat')
+            ## Add single quotes around each input file identifier
+            #set $_input_file = "'{}'".format($input.element_identifier)
+            ln -s '${input}' ${_input_file} &&
+            
+
+        perl '$__tool_directory__/hsp60ECCtool.pl' $_input_file $__tool_directory__/database.fasta $ident $output $blast
+
+]]></command>
+ <!-- perl '$__tool_directory__/nucleScore.pl' $_input_file > "$output"  -->
+ <!-- ./nuclescore.sh ${named_input_files} > "$output" -->
+
+<inputs>
+  <param format="fasta" name="input" type="data" label="Multi-FASTA file: "/>
+  <param name="ident" type="text" area="false" value="80.00" label="BLAST percentage identity:" help="percentage identity used in Blast to filter output result" />
+</inputs>
+
+ <outputs>
+    <data format="tabular" name="output" label="${tool.name}: Result"/>
+    <data format="tabular" name="blast" label="${tool.name}: BLAST output" />
+ </outputs>
+
+<help><![CDATA[
+hsp60ECCtool is a program dedicated to Enterobacter cloacae complex (ECC) that detects and identifies the partial coding sequence of hps60.
+It is based on the BLASTn algorithm and a specific dataset (based on sorted hsp60 sequences collected from GenBank ECC assemblies). 
+The program helps users to clearly identify the hsp60 cluster and associated members of the Enterobacter cloacae complex. 
+
+- The tested strain(s) must be identified as belonging to the complex by a traditional method (API 20E, mass spectrometry...) before hsp60 typing.
+ 
+- Partial amplification of the gene coding for hsp60 should be performed according to the initiale approach proposed by Hoffmann H. and Roggenkamp A. (2003).
+
+- Hsp60 cluster assignment was done according to the original research article and additional analysis provided by Berouthy R. et al. (2018) and Pot M. et al. (2021).
+
+- Associated species names are given according to Sutton GG. et al. (2018) and Wu W. et al. (2020).
+
+- Best results are given in the hsp60ECCtool Result output. UD : Undefined Cluster (see in Figure S1 in the supplementary material provided by  Pot M. et al. (2020)); NA : Not Attributed in the related research paper. Without whole-genome sequencing and additional analyses, the precise species identification remains indicative and should be taken with caution.
+  
+This tool is also available using the command line at the KaruBioNet's GitHub page:
+https://github.com/karubiotools/hsp60ECCtool
+]]>
+</help>
+
+<citations>
+  <citation type="doi">10.1128/AEM.69.9.5306-5318.2003</citation>
+  <citation type="doi">10.3201/eid2408.180151</citation>
+  <citation type="doi">10.3389/fmicb.2021.628058</citation>
+  <citation type="doi">10.12688/f1000research.14566.2</citation>
+  <citation type="doi">10.1128/mSystems.00527-20</citation>
+</citations>
+
+</tool>
+
